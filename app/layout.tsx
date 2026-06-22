@@ -25,11 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="red" className={inter.variable}>
+    <html lang="en" data-theme="white" className={inter.variable}>
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('echo-theme');if(!t||['red','white','black'].indexOf(t)===-1)t='red';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','red');}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('echo-theme');if(!t||['red','white','black'].indexOf(t)===-1)t='white';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','white');}})();`,
           }}
         />
       </head>
