@@ -38,33 +38,29 @@ export default function CursorDot() {
   }, [target]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999]">
-      <div
+    <svg
+      style={{
+        position: "fixed",
+        width: "16px",
+        height: "16px",
+        pointerEvents: "none",
+        zIndex: 9999,
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        transform: "translate(-50%, -50%)",
+        overflow: "visible",
+      }}
+      viewBox="0 0 16 16"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="8"
+        fill="#ef4444"
         style={{
-          transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-          width: 12,
-          height: 12,
-          borderRadius: "50%",
+          filter: "drop-shadow(0 0 8px rgba(239, 68, 68, 1))",
         }}
-        className="absolute -translate-x-1/2 -translate-y-1/2"
-      >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "50%",
-          }}
-          className="absolute inset-0 border border-red-500/40 opacity-80"
-        />
-        <div
-          style={{
-            width: 12,
-            height: 12,
-            borderRadius: "50%",
-          }}
-          className="relative bg-red-500 shadow-[0_0_0_10px_rgba(239,68,68,0.15)]"
-        />
-      </div>
-    </div>
+      />
+    </svg>
   );
 }
