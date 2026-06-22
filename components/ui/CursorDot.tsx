@@ -5,20 +5,48 @@ import { useEffect, useRef, useState } from "react";
 export default function CursorDot() {
   const [target, setTarget] = useState({ x: -100, y: -100 });
   const [position, setPosition] = useState({ x: -100, y: -100 });
+  const [enabled, setEnabled] = useState(false);
   const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const matchMedia = window.matchMedia("(pointer: fine)");
+    setEnabled(matchMedia.matches);
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setEnabled(event.matches);
+    };
+
+    if (matchMedia.addEventListener) {
+      matchMedia.addEventListener("change", handleChange);
+    } else {
+      matchMedia.addListener(handleChange);
+    }
+
+    return () => {
+      if (matchMedia.removeEventListener) {
+        matchMedia.removeEventListener("change", handleChange);
+      } else {
+        matchMedia.removeListener(handleChange);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handlePointerMove = (event: PointerEvent) => {
       setTarget({ x: event.clientX, y: event.clientY });
     };
 
+    if (!enabled) return undefined;
+
     window.addEventListener("pointermove", handlePointerMove);
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
     };
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
+    if (!enabled) return undefined;
+
     const animate = () => {
       setPosition((current) => {
         const dx = target.x - current.x;
@@ -35,7 +63,11 @@ export default function CursorDot() {
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [target]);
+  }, [target, enabled]);
+
+  if (!enabled) {
+    return null;
+  }
 
   return (
     <svg
